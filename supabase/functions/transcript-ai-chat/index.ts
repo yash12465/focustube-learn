@@ -1,4 +1,3 @@
-import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
@@ -18,9 +17,9 @@ serve(async (req) => {
       throw new Error('Question is required');
     }
 
-    const OPENROUTER_API_KEY = Deno.env.get('OPENROUTER_API_KEY');
-    if (!OPENROUTER_API_KEY) {
-      throw new Error('OPENROUTER_API_KEY not configured');
+    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
+    if (!lovableApiKey) {
+      throw new Error('Lovable AI API key not configured');
     }
 
     console.log('Processing question:', question);
@@ -41,26 +40,22 @@ Provide clear, accurate answers based on the video information provided. If the 
       { role: "user", content: question }
     ];
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://focustube.com',
-        'X-Title': 'FocusTube'
+        'Authorization': `Bearer ${lovableApiKey}`,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'openai/gpt-4o-mini',
-        messages: messages,
-        temperature: 0.7,
-        max_tokens: 1000
+        model: 'google/gemini-2.5-flash',
+        messages: messages
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('OpenRouter API error:', errorText);
-      throw new Error(`OpenRouter API error: ${response.status}`);
+      console.error('Lovable AI API error:', errorText);
+      throw new Error(`Lovable AI API error: ${response.status}`);
     }
 
     const data = await response.json();
