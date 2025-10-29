@@ -5,7 +5,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const YOUTUBE_API_KEY = 'AIzaSyDjgaKM1IODWJ6SlKIU0X71cHfM69GgbWg';
+const YOUTUBE_API_KEY = Deno.env.get('YOUTUBE_API_KEY');
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -17,6 +17,10 @@ serve(async (req) => {
     
     if (!query) {
       throw new Error('Search query is required');
+    }
+
+    if (!YOUTUBE_API_KEY) {
+      throw new Error('YOUTUBE_API_KEY not configured');
     }
 
     console.log('Searching YouTube for:', query);
