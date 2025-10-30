@@ -171,6 +171,12 @@ focustube/
 ✅ **Video Player** - Watch videos without distractions
 ✅ **AI Chat** - Ask questions about video content
 ✅ **Transcript Access** - View available caption tracks
+✅ **AI Search** - Dedicated AI-powered search for general queries
+✅ **Pomodoro Timer** - Focus sessions with reward system
+✅ **Timetable** - Organize your schedule and events
+✅ **Notes** - Create and manage study notes
+✅ **Rewards System** - Track progress, earn points, and unlock achievements
+✅ **User Authentication** - Secure login and signup with email
 
 ## Troubleshooting
 
