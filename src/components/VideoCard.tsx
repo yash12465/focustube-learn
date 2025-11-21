@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card";
 import { Play, Eye } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 interface VideoCardProps {
   id: string;
@@ -9,6 +8,7 @@ interface VideoCardProps {
   thumbnail: string;
   channelTitle: string;
   viewCount: string;
+  onClick?: (id: string) => void;
 }
 
 export const VideoCard = ({ 
@@ -17,10 +17,9 @@ export const VideoCard = ({
   description, 
   thumbnail, 
   channelTitle,
-  viewCount 
+  viewCount,
+  onClick
 }: VideoCardProps) => {
-  const navigate = useNavigate();
-
   const formatViews = (views: string) => {
     const num = parseInt(views);
     if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
@@ -31,7 +30,7 @@ export const VideoCard = ({
   return (
     <Card 
       className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer"
-      onClick={() => navigate(`/watch?v=${id}`)}
+      onClick={() => onClick?.(id)}
     >
       <div className="relative aspect-video overflow-hidden bg-secondary">
         <img 

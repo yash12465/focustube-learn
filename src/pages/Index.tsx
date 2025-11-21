@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { VideoCard } from "@/components/VideoCard";
+import { VideoPlayer } from "@/components/VideoPlayer";
+import { TranscriptPanel } from "@/components/TranscriptPanel";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -25,6 +27,7 @@ const Index = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [searching, setSearching] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [selectedVideoId, setSelectedVideoId] = useState("");
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,6 +135,22 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Video Player Section */}
+      {selectedVideoId && (
+        <section className="py-8 px-4 bg-background">
+          <div className="container mx-auto max-w-7xl">
+            <div className="grid lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                <VideoPlayer videoId={selectedVideoId} />
+              </div>
+              <div className="lg:col-span-1">
+                <TranscriptPanel videoId={selectedVideoId} />
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Video Results Section */}
       {(videos.length > 0 || searching) && (
         <section className="py-12 px-4 bg-gradient-to-b from-background to-secondary/10">
@@ -154,6 +173,7 @@ const Index = () => {
                     thumbnail={video.thumbnail}
                     channelTitle={video.channelTitle}
                     viewCount={video.viewCount}
+                    onClick={setSelectedVideoId}
                   />
                 ))}
               </div>
